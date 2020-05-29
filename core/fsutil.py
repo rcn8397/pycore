@@ -43,7 +43,7 @@ class FileWalker( object ):
                     matches.append( match )
         return matches
 
-    def find_obj( self, patterns, obj = str ):
+    def findobj( self, patterns, obj = str ):
         matches = []
         for root, dirs, files in os.walk( self.root, topdown=True ):
             for filename in files:
@@ -64,12 +64,3 @@ class FileWalker( object ):
                 match = os.path.join( root, filename )
                 matches.append( match )
         return matches
-
-    def walk( self ):
-        for root, dirs, files in os.walk( self.root,
-                                          topdown=True,
-                                          followlinks = self.followlinks ):
-            for name in files:
-                print( os.path.join( root, name ) )
-            for name in dirs:
-                print( os.path.join( root, name ) )

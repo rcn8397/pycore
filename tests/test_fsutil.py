@@ -20,8 +20,27 @@ def test_mkdir_p():
     print( 'Cleaning up' )
     shutil.rmtree( root )
 
+def test_filewalker():
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    fw = fsutil.FileWalker( root )
+    assert( fw )
+
+    # Find all the python files
+    results = fw.findall( '*.py' )
+    print( results )
+    assert results
+
+    results = fw.find( [ '.py', '.md' ] )
+    print( results )
+    assert results
+
+    results = fw.findobj( [ '.py', '.md' ] )
+    print( results )
+    assert results
+
 def main():
     test_mkdir_p()
+    test_filewalker()
 
 
 if __name__ == '__main__':
