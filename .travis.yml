@@ -17,4 +17,4 @@ before_install:
 # - pip install ".[test]" . # install package + test dependendcies
 script: coverage run -m pytest # run tests
 after_success:
- - coverage html # submit coverage
+ - coverage report -m # submit coverage
