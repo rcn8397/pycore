@@ -2,6 +2,8 @@
 '''
 Terminal tools
 '''
+import os
+import sys
 
 def user_input( msg ):
     '''
@@ -16,7 +18,40 @@ def user_input( msg ):
         except NameError:
             raise
     return inp
-            
+
+
+class ProgressBar( object ):
+    def __init__( self, clear_screen = False ):
+        self.platform = os.uname()
+        self.clear_screen = clear_screen
+        self.clear()
+
+    def pos( self, y, x ):
+        return '\x1b[%d;%dH' % (y, x)
+
+    def clear( self ):
+        if not self.clear_screen:
+            return
+
+        try:
+            clear = '\033[2J\033[H' # Ubuntu terminal
+            sys.stdout.write( clear )
+        except:
+            if 'nt' in self.platform:
+                clear = 'clear'
+            else:
+                clear = 'cls'
+            os.system( clear )
+
+    def update( self, percent, prefix = '', suffix = '' ):
+        self.clear()
+        bar = ( '=' * int( percent * 20 ) ).ljust( 20 )
+        percent = str( percent * 100 )
+        out = "\r%s [%s] %s%% %s" % ( prefix, bar, percent, suffix )
+        sys.stdout.write( out )
+        sys.stdout.flush()
+
+
 def safe_key( k, d, err = None ):
     v = None
     try:
