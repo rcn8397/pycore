@@ -27,10 +27,10 @@ def yieldall( path, pattern ):
                 yield os.path.join( root, filename )
 
 def existsinfile( fname, query ):
-    with open( fname, 'r', 0 ) as f:
+    with open( fname, 'rb', 0 ) as f:
         try:
             s = mmap.mmap( f.fileno(), 0, access = mmap.ACCESS_READ )
-            if s.find( query ) != -1:
+            if s.find( query.encode(encoding='UTF-8') ) != -1:
                 return True
         except ValueError as e:
             pass
