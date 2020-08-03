@@ -5,6 +5,7 @@ File system utilities
 import errno
 import os
 import fnmatch
+import mmap
 
 def mkdir_p( path ):
     '''
@@ -19,6 +20,22 @@ def mkdir_p( path ):
             raise
 
 is_ext = lambda f, ext : any( f.endswith( e ) for e in ext )
+
+def yieldall( path, pattern ):
+        for root, dirs, files in os.walk( path, topdown=True ):
+            for filename in fnmatch.filter( files, pattern ):
+                yield os.path.join( root, filename )
+
+def existsinfile( fname, query ):
+    with open( fname, 'rb', 0 ) as f:
+        try:
+            s = mmap.mmap( f.fileno(), 0, access = mmap.ACCESS_READ )
+            if s.find( query ) != -1:
+                return True
+        except ValueError as e:
+            pass
+        else:
+            return False
 
 class FileWalker( object ):
     def __init__( self, root ):
