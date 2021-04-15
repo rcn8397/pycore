@@ -39,3 +39,12 @@ def betwixt( itemlist, value, start=0, end=None ):
         else:
             return betwixt( itemlist, value, start, index )
 
+def interpolate( pt0, pt1, x ):
+    '''
+    Interpolate for y given <x> and two points (pt2 & pt1)
+    '''
+    x0,y0 = pt0
+    x1,y1 = pt1
+    assert( x - x0 > 0 )
+    dx    = ( x - x0 )/(x1 - x0)
+    return y0 * ( 1 - dx) + y1*dx
