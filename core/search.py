@@ -16,7 +16,7 @@ def betwixt( itemlist, value, start=0, end=None ):
     if end is None:
         end = len( itemlist )
         
-    index = start+(end - start)/2
+    index = int( start+(end - start)/2 )
 
     # Special case: we are at or past the limits 
     if index >= len( itemlist )-1:
